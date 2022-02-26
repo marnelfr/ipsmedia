@@ -19,7 +19,7 @@ class RegisterController extends Controller
 
         return [
             'success' => true,
-            'message' => __('register.success'),
+            'message' => __('auth.register.success'),
             'data' => [
                 'version' => '1.0',
                 'user' => $user,
