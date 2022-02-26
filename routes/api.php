@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
 
-Route::post('register', [RegisterController::class, 'create']);
+Route::post('register', [RegisterController::class, 'create'])->name('register');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
