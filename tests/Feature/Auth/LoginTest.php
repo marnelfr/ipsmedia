@@ -26,4 +26,31 @@ class LoginTest extends TestCase
         $this->assertEquals($user->id, auth()->id());
         $response->assertStatus(200);
     }
+
+    public function test_user_cannot_log_out_if_not_logged_in()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post(route('logout'));
+        $data = json_decode($response->getContent());
+
+        $response->assertStatus(200);
+        $this->assertFalse($data->success);
+    }
+
+    public function test_user_can_log_out_if_logged_in()
+    {
+        $user = User::factory()->create();
+
+        $this->post(route('login'), [
+            'email' => $user->email,
+            'password' => 'password'
+        ]);
+
+        $response = $this->post(route('logout'));
+        $data = json_decode($response->getContent());
+
+        $response->assertStatus(200);
+        $this->assertTrue($data->success);
+    }
 }
