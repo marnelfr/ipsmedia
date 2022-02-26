@@ -20,8 +20,12 @@ return [
         'success' => 'User created successfully'
     ],
     'login' => [
-        'success' => 'User logged successfully',
+        'success' => 'User logged in successfully',
         'failed' => 'Error! Your credentials don\'t match'
+    ],
+    'logout' => [
+        'success' => 'User logged out successfully',
+        'failed' => 'Error! there is no user logged in'
     ]
 
 ];

@@ -21,6 +21,7 @@ Route::get('/', HomeController::class)->name('home');
 
 Route::post('register', [RegisterController::class, 'create'])->name('register');
 Route::post('login', [LoginController::class, 'create'])->name('login');
+Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

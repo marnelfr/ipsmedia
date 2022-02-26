@@ -36,4 +36,26 @@ class LoginController extends Controller
             ]
         ];
     }
+
+    public function destroy()
+    {
+        if (auth()->check()) {
+            auth()->user()->tokens()->delete();
+
+            return [
+                'success' => true,
+                'message' => __('auth.logout.success'),
+                'data' => [
+                    'version' => '1.0',
+                ]
+            ];
+        }
+        return [
+            'success' => false,
+            'message' => __('auth.logout.failed'),
+            'data' => [
+                'version' => '1.0',
+            ]
+        ];
+    }
 }
