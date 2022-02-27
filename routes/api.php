@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\V1\Auth\LoginController;
 use App\Http\Controllers\V1\Auth\RegisterController;
+use App\Http\Controllers\V1\CommentsController;
 use App\Http\Controllers\V1\HomeController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +23,7 @@ Route::get('/', HomeController::class)->name('home');
 Route::post('register', [RegisterController::class, 'create'])->name('register');
 Route::post('login', [LoginController::class, 'create'])->name('login');
 Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/user', UserController::class);
+    Route::post('comment', [CommentsController::class, 'create']);
 });
