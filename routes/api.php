@@ -28,5 +28,5 @@ Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('user', UserController::class);
     Route::post('comment', [CommentsController::class, 'create'])->name('comment.create');
-    Route::post('watched', [LessonUserController::class, 'create']);
+    Route::post('watched', [LessonUserController::class, 'create'])->name('lesson.watched');
 });
