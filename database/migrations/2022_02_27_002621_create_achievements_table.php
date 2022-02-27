@@ -17,7 +17,7 @@ class CreateAchievementsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('name');
-            $table->$table->timestamps();
+            $table->timestamps();
         });
     }
 
