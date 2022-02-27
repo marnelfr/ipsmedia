@@ -78,4 +78,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Achievement::class);
     }
+
+    /**
+     * The lessons that a user has access to.
+     */
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class)->withTimestamps();
+    }
 }

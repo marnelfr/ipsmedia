@@ -3,7 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\AchievementUnlocked;
+use App\Events\BadgeUnlocked;
 use App\Models\Achievement;
+use App\Models\Badge;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -33,17 +35,9 @@ class AchievementUnlocker
         ]);
 
         $totat_achievement = $event->user->achievements->count();
-        $badge = [4, 8, 10];
-
-        switch ($totat_achievement) {
-            case 4:
-                $new_badge = 'Intermediate';
-                break;
-            case 8:
-                $new_badge = 'Advanced';
-                break;
-            case 10:
-                $new_badge = 'Master';
+        $unlocked_badge = Badge::firstWhere('total_achievement', $totat_achievement);
+        if ($unlocked_badge) {
+            BadgeUnlocked::dispatch($unlocked_badge->name, $event->user);
         }
     }
 }
