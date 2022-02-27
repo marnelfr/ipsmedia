@@ -19,4 +19,6 @@ class Achievement extends MorphPivot
         'name',
         'task',
     ];
+
+    protected $table = 'achievements';
 }

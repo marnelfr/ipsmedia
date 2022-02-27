@@ -4,8 +4,7 @@ namespace App\Listeners;
 
 use App\Events\AchievementUnlocked;
 use App\Events\LessonWatched;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Models\Achievement;
 
 class LessonWatcher
 {
@@ -33,14 +32,11 @@ class LessonWatcher
         }
 
         $event->user->lessons()->attach($event->lesson, ['watched' => true]);
-        $total_lesson_watched = $event->user->lessons->count();
-        $total_lesson_to_watch = [1, 5, 10, 25, 50];
-        if (in_array($total_lesson_watched, $total_lesson_to_watch)) {
-            $achievement_name = $total_lesson_watched === 1
-                ? 'First Lesson Watched'
-                : $total_lesson_watched . ' Lessons Watched';
 
-            AchievementUnlocked::dispatch($achievement_name, $event->user);
+        $achievement = Achievement::where('total_achievement', $event->user->lessons->count())
+            ->where('type', 'Lesson')->first();
+        if ($achievement) {
+            AchievementUnlocked::dispatch($achievement->name, $event->user);
         }
     }
 }

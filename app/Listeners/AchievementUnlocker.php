@@ -29,10 +29,13 @@ class AchievementUnlocker
      */
     public function handle(AchievementUnlocked $event)
     {
-        Achievement::create([
-            'name' => $event->achievement_name,
-            'user_id' => $event->user->id
-        ]);
+        $achievement = Achievement::firstWhere('name', $event->achievement_name);
+        $achieved = $event->user->achievements()->where('id', $achievement->id)->first();
+        if ($achieved) {
+            return;
+        }
+
+        $event->user->achievements()->attach($achievement);
 
         $totat_achievement = $event->user->achievements->count();
         $unlocked_badge = Badge::firstWhere('total_achievement', $totat_achievement);
