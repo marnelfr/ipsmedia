@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Auth;
 
+use App\Events\BadgeUnlocked;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\RegisterRequest;
 use App\Models\User;
@@ -15,6 +16,7 @@ class RegisterController extends Controller
         $attributes = $request->validated();
 
         $user = User::create($attributes);
+        BadgeUnlocked::dispatch('Beginner', $user);
         $token = $user->createToken('authentication_token')->plainTextToken;
 
         return [
