@@ -7,5 +7,8 @@ return [
   ],
   'comment' => [
     'success' => 'Comment created successfully'
+  ],
+  'lesson' => [
+    'watched' => 'Lesson watched'
   ]
 ];
