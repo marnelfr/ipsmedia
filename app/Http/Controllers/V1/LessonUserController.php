@@ -16,7 +16,16 @@ class LessonUserController extends Controller
         $request->validated();
 
         try {
-            $lesson = Lesson::findOrFail($request->lesson_id);
+            $lesson = Lesson::find($request->lesson_id);
+            if (!$lesson) {
+                return [
+                    'success' => false,
+                    'message' => __('messages.lesson.notfound'),
+                    'data' => [
+                        'version' => '1.0'
+                    ]
+                ];
+            }
 
             LessonWatched::dispatch($lesson, auth()->user());
 

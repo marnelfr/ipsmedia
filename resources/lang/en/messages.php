@@ -9,6 +9,7 @@ return [
     'success' => 'Comment created successfully'
   ],
   'lesson' => [
-    'watched' => 'Lesson watched'
+    'watched' => 'Lesson watched',
+    'notfound' => 'Lesson not found'
   ]
 ];
