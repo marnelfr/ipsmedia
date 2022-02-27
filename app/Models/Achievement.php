@@ -21,4 +21,14 @@ class Achievement extends MorphPivot
     ];
 
     protected $table = 'achievements';
+
+    public function scopeNextAchievement($query, $attributes = null)
+    {
+        $query->when($attributes['type'] ?? false, function ($query, $type) {
+            $query->where('type', $type);
+        });
+        $query->when($attributes['achievements'] ?? false, function ($query, $achievements) {
+            $query->whereNotIn('name', $achievements->pluck('name'));
+        });
+    }
 }

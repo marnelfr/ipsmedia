@@ -12,11 +12,17 @@ class AchievementsController extends Controller
     public function index(User $user)
     {
         $achievements = $user->achievements();
-        $next_comment_achievements = Achievement::where('type', 'Comment')->whereNotIn('name', $achievements->pluck('name'))->first()->name;
-        $next_lesson_achievements = Achievement::where('type', 'Lesson')->whereNotIn('name', $achievements->pluck('name'))->first()->name;
+        $next_comment_achievements = Achievement::nextAchievement([
+            'type' => 'Comment', 'achievements' => $achievements
+        ])->first()->name;
+        $next_lesson_achievements = Achievement::nextAchievement([
+            'type' => 'Lesson', 'achievements' => $achievements
+        ])->first()->name;
+
         $user_badges = $user->badges()->orderBy('id', 'DESC');
         $owned_badges = $user_badges->pluck('name');
-        $next_badge = Badge::whereNotIn('name', $owned_badges)->orderBy('total_achievement')->first();
+        $next_badge = Badge::whereNotIn('name', $owned_badges)
+            ->orderBy('total_achievement')->first();
 
         return response()->json([
             'unlocked_achievements' => $achievements->pluck('name'),

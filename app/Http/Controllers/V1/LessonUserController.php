@@ -17,6 +17,7 @@ class LessonUserController extends Controller
 
         try {
             $lesson = Lesson::findOrFail($request->lesson_id);
+
             LessonWatched::dispatch($lesson, auth()->user());
 
             return [
